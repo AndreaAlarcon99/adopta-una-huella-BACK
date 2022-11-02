@@ -6,7 +6,7 @@ Developed as the final project of our web development bootcamp at Ironhack Barce
 
 Hi! We are Andrea, Leticia and Nahuel, web developers students. This project is about a web application where you can adopt pets from different foundations. Our main goal is to make easier the process to adopt a pet and also help foundations to promote pet adoptations.
 
-![Project logo.](../adopta-una-huella-FRONT/public/Huella%20logo.png "Project logo.")
+![Project logo.](./public/Huella.png "Project logo.")
 
 ## Deployment
 
@@ -14,7 +14,7 @@ You can check the app fully deployed [here](https://afabregasm.herokuapp.com/). 
 
 ## Work structure
 
-We used [Trello](https://trello.com/home) tool to help us sharing the tasks during the project development.
+We used [Trello](https://trello.com/b/Qbeckzgi) tool to help us sharing the tasks during the project development.
 
 ## Installation guide
 
