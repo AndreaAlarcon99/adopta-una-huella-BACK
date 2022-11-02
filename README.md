@@ -105,7 +105,11 @@ const orderSchema = new Schema({
 
 ---
 
-Any doubts? Contact us! <img width="20px" src="https://simpleicons.now.sh/linkedin/495f7e" alt="LinkedIn" />
+Any doubts? Contact us!
+dev
+<br>
+<img width="20px" src="https://simpleicons.now.sh/linkedin/495f7e" alt="LinkedIn" />
+</br>
 <a href="https://www.linkedin.com/in/leticiasantospoveda/">Leticia</a>
 <a href="https://www.linkedin.com/in/andreaalarconvaldes/">Andrea</a>
 <a href="https://www.linkedin.com/in/angelnahuelciminialvarez/">Nahuel</a>
