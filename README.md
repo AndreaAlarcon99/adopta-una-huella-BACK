@@ -89,16 +89,23 @@ const orderSchema = new Schema({
 
 ## API Reference
 
-| Method | Endpoint         | Require                                   | Response (200)                                                   | Action                                                                                   |
-| :----: | ---------------- | ----------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-|  GET   | /animales        | -                                         | json([allPets])                                                  | Returns an array with all the animals that are in adoptation registeres in the database. |
-|  GET   | /animales/:petId | const { petId } = req.params              | json({singlePet})                                                | Returns the information of the specified animal.                                         |
-|  POST  | /animales        | const {falta definir modelo} = req.body   | json({response})                                                 | Creates an animal in the database.                                                       |
-|  PUT   | /animales/:petId | const { petId } = req.params              | json({updatedAnimal})                                            | Edits an animal that already exists on the database.                                     |
-| DELETE | /animales/:petId | const { petId } = req.params              | json({message: "Animal with _petId_ was removed successfully."}) | Deletes an animal from the database.                                                     |
-|  GET   | /animales/:type  | const { type } = req.params               | json([adoptedPet])                                               | Returns an array with all the animals that are adoptated registeres in the database.     |
-|  GET   | /profile         | -                                         | json({thisUser})                                                 | Returns the current user object.                                                         |
-|  POST  | /profile         | const { falta definir modelo } = req.body | json({response})                                                 | Creates a design project in the database.                                                |
-|  POST  | /signup          | const { falta definir modelo } = req.body | json({response})                                                 | Creates a new user in the database.                                                      |
-|  POST  | /login           | const { falta definir modelo } = req.body | json({authToken})                                                | Send the token as the response.                                                          |
-|  GET   | /verify          | const { falta definir modelo } = req.body | json({payload})                                                  | Send back the token payload object containing the user data.                             |
+| Method | Endpoint           | Require                                   | Response (200)                                                   | Action                                                                                   |
+| :----: | ------------------ | ----------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+|  GET   | /animales          | -                                         | json([allPets])                                                  | Returns an array with all the animals that are in adoptation registeres in the database. |
+|  GET   | /animalesAdoptados | -                                         | json([allPets])                                                  | Returns an array with all the animals that are adoptated registeres in the database.     |
+|  GET   | /animales/:petId   | const { petId } = req.params              | json({singlePet})                                                | Returns the information of the specified animal.                                         |
+|  POST  | /animales          | const {falta definir modelo} = req.body   | json({response})                                                 | Creates an animal in the database.                                                       |
+|  PUT   | /animales/:petId   | const { petId } = req.params              | json({updatedAnimal})                                            | Edits an animal that already exists on the database.                                     |
+| DELETE | /animales/:petId   | const { petId } = req.params              | json({message: "Animal with _petId_ was removed successfully."}) | Deletes an animal from the database.                                                     |
+|  GET   | /profile/:userId   | -                                         | json({thisUser})                                                 | Returns the current user object.                                                         |
+|  POST  | /profile/:userId   | const { falta definir modelo } = req.body | json({response})                                                 | Creates a user in the database.                                                          |
+|  POST  | /signup            | const { falta definir modelo } = req.body | json({response})                                                 | Creates a new user in the database.                                                      |
+|  POST  | /login             | const { falta definir modelo } = req.body | json({authToken})                                                | Send the token as the response.                                                          |
+|  GET   | /verify            | const { falta definir modelo } = req.body | json({payload})                                                  | Send back the token payload object containing the user data.                             |
+
+---
+
+Any doubts? Contact us! <img width="20px" src="https://simpleicons.now.sh/linkedin/495f7e" alt="LinkedIn" />
+<a href="https://www.linkedin.com/in/leticiasantospoveda/">Leticia</a>
+<a href="https://www.linkedin.com/in/andreaalarconvaldes/">Andrea</a>
+<a href="https://www.linkedin.com/in/angelnahuelciminialvarez/">Nahuel</a>
