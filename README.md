@@ -99,5 +99,6 @@ const orderSchema = new Schema({
 |  GET   | /animales/:type  | const { type } = req.params               | json([adoptedPet])                                               | Returns an array with all the animals that are adoptated registeres in the database.     |
 |  GET   | /profile         | -                                         | json({thisUser})                                                 | Returns the current user object.                                                         |
 |  POST  | /profile         | const { falta definir modelo } = req.body | json({response})                                                 | Creates a design project in the database.                                                |
-
----
+|  POST  | /signup          | const { falta definir modelo } = req.body | json({response})                                                 | Creates a new user in the database.                                                      |
+|  POST  | /login           | const { falta definir modelo } = req.body | json({authToken})                                                | Send the token as the response.                                                          |
+|  GET   | /verify          | const { falta definir modelo } = req.body | json({payload})                                                  | Send back the token payload object containing the user data.                             |
