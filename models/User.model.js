@@ -21,7 +21,9 @@ const userSchema = new Schema(
       required: [true, "Password is required."],
     },
     imgUser: {
-      type: String,
+      title: String,
+      description: String,
+      imageUrl: String,
       default: "../public/defaultimg.png"
     },
     admin: {
