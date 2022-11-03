@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const animalSchema = new Schema(
   {
-    userInfo: {
+    creator: {
         type: Schema.Types.ObjectId,
         ref: "User",
         require: true
