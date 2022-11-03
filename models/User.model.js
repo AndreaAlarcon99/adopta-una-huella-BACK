@@ -24,7 +24,7 @@ const userSchema = new Schema(
       title: String,
       description: String,
       imageUrl: String,
-      default: "../public/defaultimg.png"
+      // default: src='../public/defaultimg.png'
     },
     admin: {
       type: Boolean,
