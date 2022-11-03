@@ -15,7 +15,7 @@ router.get("/profile/:userId", async (req, res, next) => {
     const singleUser = await Animal.findById(userId)
     res.json(singleUser);
 });
-router.put("/profile/:userId", uploader.array('nombreDelInput', 5), async (req, res, next) => {
+router.put("/profile/:userId", uploader.single('nombreDelInput'), async (req, res, next) => {
     const { userId } = req.params
     const updatedUser = await User.findByIdAndUpdate(userId, req.body)
     res.json(updatedUser);
