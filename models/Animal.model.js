@@ -75,11 +75,15 @@ const animalSchema = new Schema(
       type: Boolean,
       require: true,
     },
-    ubication: {
+    location: {
       type: String,
     },
 
     adopted: {
+      type: Boolean,
+      default: false,
+    },
+    singleAnimal: {
       type: Boolean,
       default: false,
     },
