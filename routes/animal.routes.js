@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Animal = require("../models/Animal.model");
 const multer = require("multer");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 const uploader = multer({
   dest: "./public/uploaded",
   limits: {
@@ -34,7 +35,7 @@ router.get("/animales/:petId", async (req, res, next) => {
 
 //Crear un animal
 router.post(
-  "/animales",
+  "/animales", isAuthenticated,
   uploader.array("nombreDelInput", 5),
   async (req, res, next) => {
     try {
@@ -46,12 +47,12 @@ router.post(
   }
 );
 
-router.put("/animales/:petId", async (req, res, next) => {
+router.put("/animales/:petId", isAuthenticated, async (req, res, next) => {
   const { petId } = req.params;
   const updatedAnimal = await Animal.findByIdAndUpdate(petId, req.body);
   res.json(updatedAnimal);
 });
-router.delete("/animales/:petId", async (req, res, next) => {
+router.delete("/animales/:petId", isAuthenticated, async (req, res, next) => {
   const { petId } = req.params;
   await Animal.findByIdAndRemove(petId);
   res.json({ message: `Animal with ${petId} was removed successfully` });

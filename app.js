@@ -18,10 +18,10 @@ const authRoutes = require("./routes/auth.routes");
 app.use("/", authRoutes);
 
 const animalRoutes = require("./routes/animal.routes");
-app.use("/", isAuthenticated, animalRoutes);
+app.use("/", animalRoutes);
 
 const userRoutes = require("./routes/user.routes");
-app.use("/", isAuthenticated, userRoutes);
+app.use("/", userRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
