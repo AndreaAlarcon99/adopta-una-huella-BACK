@@ -5,7 +5,7 @@ const animalSchema = new Schema(
     creator: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      require: true,
+      // require: true,
     },
     animalName: {
       type: String,
@@ -24,16 +24,16 @@ const animalSchema = new Schema(
     gender: {
       type: String,
       enum: ["Macho", "Hembra"],
-      require: true,
+      // require: true,
     },
     birthday: {
       type: String,
-      require: true,
+      // require: true,
     },
     animalType: {
       type: String,
       enum: ["Perro", "Gato", "Exótico"],
-      require: true,
+      // require: true,
     },
     animalBreed: {
       type: Boolean,
@@ -41,39 +41,39 @@ const animalSchema = new Schema(
     },
     weight: {
       type: Number,
-      require: true,
+      // require: true,
     },
     age: {
       type: String,
       enum: ["Cachorro", "Joven", "Adulto", "Anciano"],
-      require: true,
+      // require: true,
     },
     castrated: {
       type: Boolean,
-      require: true,
+      // require: true,
     },
     vaccines: {
       type: Boolean,
-      require: true,
+      // require: true,
     },
     size: {
       type: String,
       enum: ["Pequeño", "Mediano", "Grande"],
-      require: true,
+      // require: true,
     },
     lifestyle: {
       type: String,
       enum: ["Activo", "Muy activo", "Tranquilo", "Muy tranquilo"],
-      require: true,
+      // require: true,
     },
     illness: {
       // Enfermedades
       type: Boolean,
-      require: true,
+      // require: true,
     },
     microchip: {
       type: Boolean,
-      require: true,
+      // require: true,
     },
     location: {
       type: String,
