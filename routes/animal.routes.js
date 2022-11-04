@@ -10,68 +10,43 @@ const uploader = multer({
   },
 });
 
-router.get("/animales", async (req, res, next) => {
-  const resp = await Animal.find();
-  res.json(resp);
+// Lista de animales en adopción
+router.get("/animales", (req, res, next) => {
+  Animal.find()
+    .then((results) => {
+      res.json(results);
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
+
+// Lista de animales que han sido adoptados
 router.get("/animalesAdoptados", async (req, res, next) => {
   const resp = await Animal.find({ adopted: true });
   res.json(resp);
 });
+
 router.get("/animales/:petId", async (req, res, next) => {
   const { petId } = req.params;
   const singlePet = await Animal.findById(petId);
   res.json(singlePet);
 });
+
+//Crear un animal
 router.post(
   "/animales", isAuthenticated,
   uploader.array("nombreDelInput", 5),
   async (req, res, next) => {
-    // const addedAnimal = req.body
-    // const newAnimal = await Animal.create(addedAnimal)
-    const {
-      creator,
-      description,
-      animalName,
-      gender,
-      birthday,
-      animalType,
-      animalBreed,
-      weight,
-      age,
-      castrated,
-      vaccines,
-      size,
-      lifestyle,
-      illness,
-      microchip,
-      adopted,
-      location,
-    } = req.body;
-
-    const newAnimal = await Animal.create({
-      creator,
-      location,
-      description,
-      animalName,
-      gender,
-      birthday,
-      animalType,
-      animalBreed,
-      weight,
-      age,
-      castrated,
-      vaccines,
-      size,
-      lifestyle,
-      illness,
-      microchip,
-      adopted,
-      imgAnimal: req.file.path,
-    });
-    res.json(newAnimal);
+    try {
+      const response = await Animal.create(req.body);
+      res.json(response);
+    } catch (err) {
+      next(err);
+    }
   }
 );
+
 router.put("/animales/:petId", isAuthenticated, async (req, res, next) => {
   const { petId } = req.params;
   const updatedAnimal = await Animal.findByIdAndUpdate(petId, req.body);
