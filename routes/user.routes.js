@@ -12,7 +12,7 @@ const uploader = multer({
 
 router.get("/profile/:userId", async (req, res, next) => {
     const { userId } = req.params
-    const singleUser = await Animal.findById(userId)
+    const singleUser = await User.findById(userId)
     res.json(singleUser);
 });
 router.put("/profile/:userId", uploader.single('nombreDelInput'), async (req, res, next) => {
