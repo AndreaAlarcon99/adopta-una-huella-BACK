@@ -7,18 +7,21 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 const saltRounds = 10;
 const multer = require("multer");
 const uploader = multer({
-    dest:"./public/uploaded",
-    limits: {
-        fileSize: 10000000
-    }
-})
+  dest: "./public/uploaded",
+  limits: {
+    fileSize: 10000000,
+  },
+});
 
-router.post("/signup", uploader.single('nombreDelInput'), (req, res, next) => {
-  
+router.post("/signup", uploader.single("nombreDelInput"), (req, res, next) => {
   const { email, password, username, imgUser } = req.body;
 
   // Check if email or password or name are provided as empty strings
-  if (email === "" || password === "" || username === "" /*|| imgUser === "" || password != password2*/) {
+  if (
+    email === "" ||
+    password === "" ||
+    username === "" /*|| imgUser === "" || password != password2*/
+  ) {
     res.status(400).json({ message: "Provide email, password and name" });
     return;
   }
@@ -55,7 +58,12 @@ router.post("/signup", uploader.single('nombreDelInput'), (req, res, next) => {
 
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then`
-      return User.create({ email, password: hashedPassword, username, imgUser });
+      return User.create({
+        email,
+        password: hashedPassword,
+        username,
+        imgUser,
+      });
     })
     .then((createdUser) => {
       // Deconstruct the newly created user object to omit the password

@@ -24,6 +24,15 @@ const userSchema = new Schema(
       title: String,
       description: String,
       imageUrl: String,
+    },
+    description: {
+      type: String,
+      required: [true, "Description is required."],
+    },
+    logoUser: {
+      title: String,
+      description: String,
+      imageUrl: String
       // default: src='../public/defaultimg.png'
     },
     admin: {
