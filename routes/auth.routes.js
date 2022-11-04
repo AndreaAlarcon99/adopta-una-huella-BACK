@@ -19,14 +19,14 @@ router.post("/signup", uploader.single("nombreDelInput"), (req, res, next) => {
   const { email, password, username, imgUser, description, licence, location} = req.body;
   
 
-  // Check if email or password or name are provided as empty strings
+  // // Check if email or password or name are provided as empty strings
   if (
     email === "" ||
     password === "" ||
     username === "" || 
-    imgUser === "" ||
+  //   imgUser === "" ||
     description === "" ||
-    licence !== ("12345A" || "12345B" || "12345C" || "12345D" || "12345E" || "12345F" || "12345G" || "12345H" || "12345I" || "12345J") ||
+    licence === "" ||
     location === ""
     ) {
     res.status(400).json({ message: "Provide email, password and name" });
@@ -137,7 +137,7 @@ router.post("/login", (req, res, next) => {
 router.get("/verify", isAuthenticated, (req, res, next) => {
   // If JWT token is valid the payload gets decoded by the
   // isAuthenticated middleware and is made available on `req.payload`
-  // console.log(`req.payload`, req.payload);
+  console.log(`req.payload`, req.payload);
 
   // Send back the token payload object containing the user data
   res.status(200).json(req.payload);

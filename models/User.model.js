@@ -22,7 +22,7 @@ const userSchema = new Schema(
     },
     imgUser: {
       type: String,
-      required: [true, "Image is required."],
+      // required: [true, "Image is required."],
     },
     description: {
       type: String,
