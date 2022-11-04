@@ -13,8 +13,11 @@ const uploader = multer({
   },
 });
 
+
 router.post("/signup", uploader.single("nombreDelInput"), (req, res, next) => {
+  console.log("soy inicio ruta signup")
   const { email, password, username, imgUser, description, licence, location} = req.body;
+  
 
   // Check if email or password or name are provided as empty strings
   if (
