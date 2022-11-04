@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require('../models/User.model')
+const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 const multer = require("multer");
 const uploader = multer({
     dest:"./public/uploaded",

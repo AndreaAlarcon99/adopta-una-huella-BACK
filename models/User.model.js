@@ -21,19 +21,21 @@ const userSchema = new Schema(
       required: [true, "Password is required."],
     },
     imgUser: {
-      title: String,
-      description: String,
-      imageUrl: String,
+      type: String,
+      required: [true, "Image is required."],
     },
     description: {
       type: String,
       required: [true, "Description is required."],
     },
-    logoUser: {
-      title: String,
-      description: String,
-      imageUrl: String
-      // default: src='../public/defaultimg.png'
+    licence: {
+      type: String,
+      enum: ["12345A", "12345B", "12345C", "12345D", "12345E", "12345F", "12345G", "12345H", "12345I", "12345J"],
+      required: true
+    },
+    location: {
+      type: String,
+      required: true
     },
     admin: {
       type: Boolean,

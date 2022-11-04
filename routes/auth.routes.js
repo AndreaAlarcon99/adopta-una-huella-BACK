@@ -14,14 +14,18 @@ const uploader = multer({
 });
 
 router.post("/signup", uploader.single("nombreDelInput"), (req, res, next) => {
-  const { email, password, username, imgUser } = req.body;
+  const { email, password, username, imgUser, description, licence, location} = req.body;
 
   // Check if email or password or name are provided as empty strings
   if (
     email === "" ||
     password === "" ||
-    username === "" /*|| imgUser === "" || password != password2*/
-  ) {
+    username === "" || 
+    imgUser === "" ||
+    description === "" ||
+    licence !== ("12345A" || "12345B" || "12345C" || "12345D" || "12345E" || "12345F" || "12345G" || "12345H" || "12345I" || "12345J") ||
+    location === ""
+    ) {
     res.status(400).json({ message: "Provide email, password and name" });
     return;
   }
@@ -63,15 +67,18 @@ router.post("/signup", uploader.single("nombreDelInput"), (req, res, next) => {
         password: hashedPassword,
         username,
         imgUser,
+        description,
+        licence,
+        location
       });
     })
     .then((createdUser) => {
       // Deconstruct the newly created user object to omit the password
       // We should never expose passwords publicly
-      const { email, username, _id, imgUser } = createdUser;
+      const { email, username, _id, imgUser, description, licence, location } = createdUser;
 
       // Create a new object that doesn't expose the password
-      const user = { email, username, _id, imgUser };
+      const user = { email, username, _id, imgUser, description, licence, location };
 
       // Send a json response containing the user object
       res.status(201).json({ user: user });
@@ -103,10 +110,10 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the user object to omit the password
-        const { _id, email, username, imgUser } = foundUser;
+        const { _id, email, username, imgUser, description, licence, location } = foundUser;
 
         // Create an object that will be set as the token payload
-        const payload = { _id, email, username, imgUser };
+        const payload = { _id, email, username, imgUser, description, licence, location };
 
         // Create a JSON Web Token and sign it
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
