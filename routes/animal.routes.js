@@ -58,4 +58,10 @@ router.delete("/animales/:petId", isAuthenticated, async (req, res, next) => {
   res.json({ message: `Animal with ${petId} was removed successfully` });
 });
 
+router.get("/animalesFiltrados/:creator", async (req, res, next) => {
+    const { creatorId } = req.params
+    const resp = await Animal.find({ creator: creatorId });
+    res.json(resp);
+  });
+
 module.exports = router;
