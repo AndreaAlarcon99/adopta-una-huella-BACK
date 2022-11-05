@@ -59,8 +59,8 @@ router.delete("/animales/:petId", isAuthenticated, async (req, res, next) => {
 });
 
 router.get("/animalesFiltrados/:creator", async (req, res, next) => {
-    const { creatorId } = req.params
-    const resp = await Animal.find({ creator: creatorId });
+    const { userId } = req.params
+    const resp = await Animal.find({ creator: userId });
     res.json(resp);
   });
 
