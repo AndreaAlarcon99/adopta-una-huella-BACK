@@ -13,30 +13,30 @@ const uploader = multer({
   },
 });
 
-
 router.post("/signup", uploader.single("nombreDelInput"), (req, res, next) => {
-  console.log("soy inicio ruta signup")
-  const { email, password, username, imgUser, description, licence, location} = req.body;
-  
+  console.log("soy inicio ruta signup");
+  const { email, password, username, description, licence, location } =
+    req.body;
 
   // // Check if email or password or name are provided as empty strings
   if (
     email === "" ||
     password === "" ||
-    username === "" || 
-  //   imgUser === "" ||
+    username === "" ||
     description === "" ||
     licence === "" ||
     location === ""
-    ) {
-    res.status(400).json({ message: "Provide email, password and name" });
+  ) {
+    res.status(400).json({ message: "Todos los campos son obligatorios." });
     return;
   }
 
   // This regular expression check that the email is of a valid format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!emailRegex.test(email)) {
-    res.status(400).json({ message: "Provide a valid email address." });
+    res
+      .status(400)
+      .json({ message: "Proporcione un correo electrónico valido." });
     return;
   }
 
@@ -45,7 +45,7 @@ router.post("/signup", uploader.single("nombreDelInput"), (req, res, next) => {
   if (!passwordRegex.test(password)) {
     res.status(400).json({
       message:
-        "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
+        "La contraseña debe tener al menos 6 caracteres y contener al menos un número, una minúscula y una mayúscula.",
     });
     return;
   }
@@ -55,7 +55,7 @@ router.post("/signup", uploader.single("nombreDelInput"), (req, res, next) => {
     .then((foundUser) => {
       // If the user with the same email already exists, send an error response
       if (foundUser) {
-        res.status(400).json({ message: "User already exists." });
+        res.status(400).json({ message: "El usuario ya existe." });
         return;
       }
 
@@ -69,24 +69,41 @@ router.post("/signup", uploader.single("nombreDelInput"), (req, res, next) => {
         email,
         password: hashedPassword,
         username,
-        imgUser,
         description,
         licence,
-        location
+        location,
       });
     })
     .then((createdUser) => {
       // Deconstruct the newly created user object to omit the password
       // We should never expose passwords publicly
-      const { email, username, _id, imgUser, description, licence, location } = createdUser;
+      const { email, username, _id, description, licence, location } =
+        createdUser;
 
       // Create a new object that doesn't expose the password
-      const user = { email, username, _id, imgUser, description, licence, location };
+      const payload = {
+        email,
+        username,
+        _id,
+        description,
+        licence,
+        location,
+      };
+      const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+        algorithm: "HS256",
+        expiresIn: "6h",
+      });
+
+      // Send the token as the response
+      res.status(200).json({ authToken: authToken });
 
       // Send a json response containing the user object
-      res.status(201).json({ user: user });
+      // res.status(201).json({ user: user });
     })
-    .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
+    .catch((err) => {
+      console.log("INTENTANDO ENCONTRAR EL ERROR: ", err.response);
+      next(err);
+    }); // In this case, we send error handling to the error handling middleware.
 });
 
 // POST  /auth/login - Verifies email and password and returns a JWT
@@ -95,7 +112,9 @@ router.post("/login", (req, res, next) => {
 
   // Check if email or password are provided as empty string
   if (email === "" || password === "") {
-    res.status(400).json({ message: "Provide email and password." });
+    res
+      .status(400)
+      .json({ message: "Proporcionar el correo electrónico y la contraseña." });
     return;
   }
 
@@ -104,7 +123,7 @@ router.post("/login", (req, res, next) => {
     .then((foundUser) => {
       if (!foundUser) {
         // If the user is not found, send an error response
-        res.status(401).json({ message: "User not found." });
+        res.status(401).json({ message: "Usuario no encontrado." });
         return;
       }
 
@@ -113,10 +132,18 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the user object to omit the password
-        const { _id, email, username, imgUser, description, licence, location } = foundUser;
+        const { _id, email, username, description, licence, location } =
+          foundUser;
 
         // Create an object that will be set as the token payload
-        const payload = { _id, email, username, imgUser, description, licence, location };
+        const payload = {
+          _id,
+          email,
+          username,
+          description,
+          licence,
+          location,
+        };
 
         // Create a JSON Web Token and sign it
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
@@ -127,7 +154,9 @@ router.post("/login", (req, res, next) => {
         // Send the token as the response
         res.status(200).json({ authToken: authToken });
       } else {
-        res.status(401).json({ message: "Unable to authenticate the user" });
+        res
+          .status(401)
+          .json({ message: "No se ha podido autentificar al usuario." });
       }
     })
     .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
