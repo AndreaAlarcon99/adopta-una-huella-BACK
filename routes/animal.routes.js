@@ -31,19 +31,15 @@ router.get("/animales/:animalId", (req, res, next) => {
     const { animalId } = req.params;
     
     Animal.findById(animalId)
-    .populate("creator")
+    .populate("User")
     .then(result =>{
       const data = {
-        creator: result.creator
-
+        result,
+        username: req.body.username
       }
-      res.json(result.data, data);
+      res.json(data);
     })
-    
-  
     .catch((err) => next(err));
-    
-  
 });
 
 // router.get("/animales/:animalId", async (req, res, next) => {
