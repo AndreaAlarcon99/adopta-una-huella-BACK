@@ -27,11 +27,37 @@ router.get("/animalesAdoptados", async (req, res, next) => {
   res.json(resp);
 });
 
-router.get("/animales/:petId", async (req, res, next) => {
-  const { petId } = req.params;
-  const singlePet = await Animal.findById(petId);
-  res.json(singlePet);
+router.get("/animales/:animalId", (req, res, next) => {
+    const { animalId } = req.params;
+    
+    Animal.findById(animalId)
+    .populate("creator")
+    .then(result =>{
+      const data = {
+        creator: result.creator
+
+      }
+      res.json(result.data, data);
+    })
+    
+  
+    .catch((err) => next(err));
+    
+  
 });
+
+// router.get("/animales/:animalId", async (req, res, next) => {
+//   try {
+//     const { animalId } = req.params;
+//     console.log("pet id soy yo ", animalId)
+//     const singlePet = await Animal.findById(animalId).populate("creator")
+//     res.json(singlePet);
+//   }
+//   catch (err) {
+//     next(err);
+//   }
+  
+// });
 
 //Crear un animal
 router.post(
