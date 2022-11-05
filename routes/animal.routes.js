@@ -31,13 +31,8 @@ router.get("/animales/:animalId", (req, res, next) => {
     const { animalId } = req.params;
     
     Animal.findById(animalId)
-    .populate("User")
     .then(result =>{
-      const data = {
-        result,
-        username: req.body.username
-      }
-      res.json(data);
+      res.json(result);
     })
     .catch((err) => next(err));
 });
