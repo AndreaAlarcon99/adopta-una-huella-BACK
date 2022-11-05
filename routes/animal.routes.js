@@ -30,10 +30,15 @@ router.get("/animalesAdoptados", async (req, res, next) => {
 router.get("/animales/:animalId", (req, res, next) => {
     const { animalId } = req.params;
     Animal.findById(animalId)
-    .then(result => res.json(result))
-    .catch(err => next(err));
-    
-  
+    .populate("User")
+    .then(result =>{
+      const data = {
+        result,
+        username: req.body.username
+      }
+      res.json(data);
+    })
+    .catch((err) => next(err));
 });
 
 // router.get("/animales/:animalId", async (req, res, next) => {
