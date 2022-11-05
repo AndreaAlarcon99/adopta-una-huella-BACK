@@ -35,10 +35,6 @@ const animalSchema = new Schema(
       enum: ["Perro", "Gato", "Exótico"],
       // require: true,
     },
-    animalBreed: {
-      type: Boolean,
-      // raza del animal
-    },
     weight: {
       type: Number,
       // require: true,
