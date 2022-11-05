@@ -29,19 +29,9 @@ router.get("/animalesAdoptados", async (req, res, next) => {
 
 router.get("/animales/:animalId", (req, res, next) => {
     const { animalId } = req.params;
-    
     Animal.findById(animalId)
-    .populate("creator")
-    .then(result =>{
-      const data = {
-        creator: result.creator
-
-      }
-      res.json(result.data, data);
-    })
-    
-  
-    .catch((err) => next(err));
+    .then(result => res.json(result))
+    .catch(err => next(err));
     
   
 });
