@@ -27,10 +27,15 @@ router.get("/animalesAdoptados", async (req, res, next) => {
   res.json(resp);
 });
 
-router.get("/animales/:petId", async (req, res, next) => {
-  const { petId } = req.params;
-  const singlePet = await Animal.findById(petId);
-  res.json(singlePet);
+// página de detalle del animal
+router.get("/animales/:animalId", (req, res, next) => {
+    const { animalId } = req.params;
+    
+    Animal.findById(animalId)
+    .then(result =>{
+      res.json(result);
+    })
+    .catch((err) => next(err));
 });
 
 //Crear un animal
@@ -58,15 +63,25 @@ router.post("/animales", isAuthenticated, (req, res, next) => {
     });
 });
 
-router.put("/animales/:petId", isAuthenticated, async (req, res, next) => {
-  const { petId } = req.params;
-  const updatedAnimal = await Animal.findByIdAndUpdate(petId, req.body);
-  res.json(updatedAnimal);
+//editar un animal
+router.put("/animales/:animalId", isAuthenticated, async (req, res, next) => {
+  const { animalId } = req.params;
+  console.log("animal id desde back ", animalId)
+  try {
+    const updatedAnimal = await Animal.findByIdAndUpdate(animalId, req.body, { new: true });
+    console.log("updatedAnimal ", updatedAnimal)
+    res.json(updatedAnimal);
+  }
+  catch (err) {
+    next(err)
+  }
 });
-router.delete("/animales/:petId", isAuthenticated, async (req, res, next) => {
-  const { petId } = req.params;
-  await Animal.findByIdAndRemove(petId);
-  res.json({ message: `Animal with ${petId} was removed successfully` });
+
+// eliminar un animal
+router.delete("/animales/:animalId", isAuthenticated, async (req, res, next) => {
+  const { animalId } = req.params;
+  await Animal.findByIdAndRemove(animalId);
+  res.json({ message: `La publicación del animal ${animalId} se ha eliminado correctamente` });
 });
 
 module.exports = router;
