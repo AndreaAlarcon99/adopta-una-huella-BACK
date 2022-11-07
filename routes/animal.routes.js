@@ -27,6 +27,7 @@ router.get("/animalesAdoptados", async (req, res, next) => {
   res.json(resp);
 });
 
+// página de detalle del animal
 router.get("/animales/:animalId", (req, res, next) => {
     const { animalId } = req.params;
     Animal.findById(animalId)
@@ -36,42 +37,50 @@ router.get("/animales/:animalId", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-// router.get("/animales/:animalId", async (req, res, next) => {
-//   try {
-//     const { animalId } = req.params;
-//     console.log("pet id soy yo ", animalId)
-//     const singlePet = await Animal.findById(animalId).populate("creator")
-//     res.json(singlePet);
-//   }
-//   catch (err) {
-//     next(err);
-//   }
-  
-// });
-
 //Crear un animal
-router.post(
-  "/animales", isAuthenticated,
-  uploader.array("nombreDelInput", 5),
-  async (req, res, next) => {
-    try {
-      const response = await Animal.create(req.body);
-      res.json(response);
-    } catch (err) {
-      next(err);
-    }
-  }
-);
+// router.post(
+//   "/animales", isAuthenticated,
+//   uploader.array("nombreDelInput", 5),
+//   async (req, res, next) => {
+//     try {
+//       const response = await Animal.create(req.body);
+//       res.json(response);
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+// );
 
-router.put("/animales/:petId", isAuthenticated, async (req, res, next) => {
-  const { petId } = req.params;
-  const updatedAnimal = await Animal.findByIdAndUpdate(petId, req.body);
-  res.json(updatedAnimal);
+// Crear un animal
+router.post("/animales", isAuthenticated, (req, res, next) => {
+  console.log("Soy el post de animales desde back");
+  Animal.create(req.body)
+    .then((results) => res.json(results))
+    .catch((err) => {
+      console.log("INTENTANDO ENCONTRAR EL ERROR: ", err.response);
+      next(err);
+    });
 });
-router.delete("/animales/:petId", isAuthenticated, async (req, res, next) => {
-  const { petId } = req.params;
-  await Animal.findByIdAndRemove(petId);
-  res.json({ message: `Animal with ${petId} was removed successfully` });
+
+//editar un animal
+router.put("/animales/:animalId", isAuthenticated, async (req, res, next) => {
+  const { animalId } = req.params;
+  console.log("animal id desde back ", animalId)
+  try {
+    const updatedAnimal = await Animal.findByIdAndUpdate(animalId, req.body, { new: true });
+    console.log("updatedAnimal ", updatedAnimal)
+    res.json(updatedAnimal);
+  }
+  catch (err) {
+    next(err)
+  }
+});
+
+// eliminar un animal
+router.delete("/animales/:animalId", isAuthenticated, async (req, res, next) => {
+  const { animalId } = req.params;
+  await Animal.findByIdAndRemove(animalId);
+  res.json({ message: `La publicación del animal ${animalId} se ha eliminado correctamente` });
 });
 
 router.get("/animalesFiltrados/:creator", async (req, res, next) => {
