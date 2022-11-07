@@ -12,7 +12,7 @@ const animalSchema = new Schema(
       require: true,
     },
     imgAnimal: {
-      type: Array,
+      type: String,
       title: String,
       description: String,
       imageUrl: String,
@@ -27,7 +27,16 @@ const animalSchema = new Schema(
       // require: true,
     },
     birthday: {
-      type: String,
+      dia: {
+        type: Number,
+      },
+
+      mes: {
+        type: Number,
+      },
+      año: {
+        type: Number,
+      },
       // require: true,
     },
     animalType: {
@@ -35,10 +44,7 @@ const animalSchema = new Schema(
       enum: ["Perro", "Gato", "Exótico"],
       // require: true,
     },
-    animalBreed: {
-      type: Boolean,
-      // raza del animal
-    },
+
     weight: {
       type: Number,
       // require: true,
@@ -85,7 +91,7 @@ const animalSchema = new Schema(
     },
     singleAnimal: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   {

@@ -34,18 +34,29 @@ router.get("/animales/:petId", async (req, res, next) => {
 });
 
 //Crear un animal
-router.post(
-  "/animales", isAuthenticated,
-  uploader.array("nombreDelInput", 5),
-  async (req, res, next) => {
-    try {
-      const response = await Animal.create(req.body);
-      res.json(response);
-    } catch (err) {
+// router.post(
+//   "/animales", isAuthenticated,
+//   uploader.array("nombreDelInput", 5),
+//   async (req, res, next) => {
+//     try {
+//       const response = await Animal.create(req.body);
+//       res.json(response);
+//     } catch (err) {
+//       next(err);
+//     }
+//   }
+// );
+
+// Crear un animal
+router.post("/animales", isAuthenticated, (req, res, next) => {
+  console.log("Soy el post de animales desde back");
+  Animal.create(req.body)
+    .then((results) => res.json(results))
+    .catch((err) => {
+      console.log("INTENTANDO ENCONTRAR EL ERROR: ", err.response);
       next(err);
-    }
-  }
-);
+    });
+});
 
 router.put("/animales/:petId", isAuthenticated, async (req, res, next) => {
   const { petId } = req.params;
