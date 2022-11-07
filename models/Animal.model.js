@@ -29,15 +29,16 @@ const animalSchema = new Schema(
     birthday: {
       dia: {
         type: Number,
+        require: true,
       },
-
       mes: {
         type: Number,
+        require: true,
       },
       año: {
         type: Number,
+        require: true,
       },
-      require: true,
     },
     animalType: {
       type: String,
