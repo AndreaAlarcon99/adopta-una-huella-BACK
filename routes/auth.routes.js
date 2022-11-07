@@ -101,7 +101,6 @@ router.post("/signup", uploader.single("nombreDelInput"), (req, res, next) => {
       // res.status(201).json({ user: user });
     })
     .catch((err) => {
-      console.log("INTENTANDO ENCONTRAR EL ERROR: ", err.response);
       next(err);
     }); // In this case, we send error handling to the error handling middleware.
 });

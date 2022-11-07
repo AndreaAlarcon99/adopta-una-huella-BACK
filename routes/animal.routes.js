@@ -30,7 +30,6 @@ router.get("/animalesAdoptados", async (req, res, next) => {
 // página de detalle del animal
 router.get("/animales/:animalId", (req, res, next) => {
     const { animalId } = req.params;
-    
     Animal.findById(animalId)
     .then(result =>{
       res.json(result);
@@ -83,5 +82,11 @@ router.delete("/animales/:animalId", isAuthenticated, async (req, res, next) => 
   await Animal.findByIdAndRemove(animalId);
   res.json({ message: `La publicación del animal ${animalId} se ha eliminado correctamente` });
 });
+
+router.get("/animalesFiltrados/:creator", async (req, res, next) => {
+    const { userId } = req.params
+    const resp = await Animal.find({ creator: userId });
+    res.json(resp);
+  });
 
 module.exports = router;

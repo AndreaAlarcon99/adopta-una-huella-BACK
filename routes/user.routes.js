@@ -10,13 +10,12 @@ const uploader = multer({
     }
 })
 
-
-router.get("/profile/:userId", async (req, res, next) => {
+router.get("/perfil/:userId", async (req, res, next) => {
     const { userId } = req.params
     const singleUser = await User.findById(userId)
     res.json(singleUser);
 });
-router.put("/profile/:userId", isAuthenticated, uploader.single('nombreDelInput'), async (req, res, next) => {
+router.put("/perfil/:userId", isAuthenticated, uploader.single('nombreDelInput'), async (req, res, next) => {
     const { userId } = req.params
     const updatedUser = await User.findByIdAndUpdate(userId, req.body)
     res.json(updatedUser);
