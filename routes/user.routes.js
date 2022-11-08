@@ -4,6 +4,8 @@ const User = require("../models/User.model");
 const Animal = require("../models/Animal.model");
 
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
+
+const fileUploader = require("../config/cloudinary.config");
 const multer = require("multer");
 const uploader = multer({
   dest: "./public/uploaded",
@@ -18,6 +20,13 @@ router.get("/perfil/:userId", async (req, res, next) => {
   res.json(singleUser);
 });
 
+router.put("/perfil/:userId", isAuthenticated, fileUploader.single('imgUser'), async (req, res, next) => {
+    const { userId } = req.params
+    const updatedUser = await User.findByIdAndUpdate(userId, req.body)
+    res.json(updatedUser);
+  }
+);
+
 // router.get("/perfil/:animalId", isAuthenticated, (req, res, next) => {
 //   const { animalId } = req.params;
 
@@ -27,16 +36,5 @@ router.get("/perfil/:userId", async (req, res, next) => {
 //       res.json(results);
 //     });
 // });
-
-router.put(
-  "/perfil/:userId",
-  isAuthenticated,
-  uploader.single("nombreDelInput"),
-  async (req, res, next) => {
-    const { userId } = req.params;
-    const updatedUser = await User.findByIdAndUpdate(userId, req.body);
-    res.json(updatedUser);
-  }
-);
 
 module.exports = router;

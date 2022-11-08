@@ -13,9 +13,6 @@ const animalSchema = new Schema(
     },
     imgAnimal: {
       type: String,
-      title: String,
-      description: String,
-      imageUrl: String,
     },
     description: {
       type: String,
@@ -27,18 +24,19 @@ const animalSchema = new Schema(
       require: true,
     },
     birthday: {
-      dia: {
-        type: Number,
-        require: true,
-      },
-      mes: {
-        type: Number,
-        require: true,
-      },
-      año: {
-        type: Number,
-        require: true,
-      },
+      type: Date
+      // dia: {
+      //   type: Number,
+      //   require: true,
+      // },
+      // mes: {
+      //   type: Number,
+      //   require: true,
+      // },
+      // año: {
+      //   type: Number,
+      //   require: true,
+      // },
     },
     animalType: {
       type: String,

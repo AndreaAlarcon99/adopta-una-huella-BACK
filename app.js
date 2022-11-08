@@ -12,6 +12,7 @@ const express = require("express");
 const app = express();
 require("./config")(app);
 
+
 // 👇 Start handling routes here
 
 const authRoutes = require("./routes/auth.routes");

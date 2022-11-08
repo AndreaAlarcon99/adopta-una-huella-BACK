@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 
-// TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
     ourAnimals: [
@@ -28,7 +27,7 @@ const userSchema = new Schema(
     },
     imgUser: {
       type: String,
-      // required: [true, "Image is required."],
+      default: "../public/imageDefault.png"
     },
     description: {
       type: String,

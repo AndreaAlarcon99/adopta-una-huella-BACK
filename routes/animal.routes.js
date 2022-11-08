@@ -1,14 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Animal = require("../models/Animal.model");
-const multer = require("multer");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
-const uploader = multer({
-  dest: "./public/uploaded",
-  limits: {
-    fileSize: 10000000,
-  },
-});
+
+const fileUploader = require("../config/cloudinary.config");
+
 
 router.get("/", (req, res, next) => {
   const filtro = {
@@ -62,26 +58,25 @@ router.get("/animales/:animalId", (req, res, next) => {
     .catch((err) => next(err));
 });
 
+
 // Crear un animal
-router.post("/animales", isAuthenticated, (req, res, next) => {
-  console.log("Soy el post de animales desde back");
-  Animal.create(req.body)
+router.post("/animales", isAuthenticated, fileUploader.single("imgAnimal"), (req, res, next) => {
+  console.log(req.body)
+  Animal.create({...req.body, imgAnimal: req.file.path})
     .then((results) => res.json(results))
     .catch((err) => {
-      console.log("INTENTANDO ENCONTRAR EL ERROR: ", err.response);
       next(err);
     });
 });
 
 //editar un animal
-router.put("/animales/:animalId", isAuthenticated, async (req, res, next) => {
+router.put("/animales/:animalId", isAuthenticated, fileUploader.single("imgAnimal"), async (req, res, next) => {
   const { animalId } = req.params;
   console.log("animal id desde back ", animalId);
   try {
-    const updatedAnimal = await Animal.findByIdAndUpdate(animalId, req.body, {
-      new: true,
-    });
-    console.log("updatedAnimal ", updatedAnimal);
+
+    const updatedAnimal = await Animal.findByIdAndUpdate(animalId, req.body, { new: true });
+
     res.json(updatedAnimal);
   } catch (err) {
     next(err);
