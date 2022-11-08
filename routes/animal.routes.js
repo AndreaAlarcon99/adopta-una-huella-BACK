@@ -10,9 +10,34 @@ const uploader = multer({
   },
 });
 
-// Lista de animales en adopción
+router.get("/", (req, res, next) => {
+  const filtro = {
+    age: ["Anciano"],
+  };
+
+  Animal.find({ age: { $in: filtro.age } }).then((results) => {
+    res.json(results);
+  });
+});
+
+// Lista de animales en adopción con filtros
 router.get("/animales", (req, res, next) => {
-  Animal.find()
+  const arrayCondiciones = [];
+  const filtro = {};
+  const { gender, age, size, lifestyle, animalType } = req.query;
+
+  if (gender && gender.length > 0)
+    arrayCondiciones.push({ gender: { $in: gender } });
+  if (size && size.length > 0) arrayCondiciones.push({ size: { $in: size } });
+  if (age && age.length > 0) arrayCondiciones.push({ age: { $in: age } });
+  if (lifestyle && lifestyle.length > 0)
+    arrayCondiciones.push({ lifestyle: { $in: lifestyle } });
+  if (animalType && animalType.length > 0)
+    arrayCondiciones.push({ animalType: { $in: animalType } });
+
+  if (arrayCondiciones.length > 0) filtro.$and = arrayCondiciones;
+
+  Animal.find(filtro)
     .then((results) => {
       res.json(results);
     })
@@ -29,27 +54,13 @@ router.get("/animalesAdoptados", async (req, res, next) => {
 
 // página de detalle del animal
 router.get("/animales/:animalId", (req, res, next) => {
-    const { animalId } = req.params;
-    Animal.findById(animalId)
-    .then(result =>{
+  const { animalId } = req.params;
+  Animal.findById(animalId)
+    .then((result) => {
       res.json(result);
     })
     .catch((err) => next(err));
 });
-
-//Crear un animal
-// router.post(
-//   "/animales", isAuthenticated,
-//   uploader.array("nombreDelInput", 5),
-//   async (req, res, next) => {
-//     try {
-//       const response = await Animal.create(req.body);
-//       res.json(response);
-//     } catch (err) {
-//       next(err);
-//     }
-//   }
-// );
 
 // Crear un animal
 router.post("/animales", isAuthenticated, (req, res, next) => {
@@ -65,28 +76,37 @@ router.post("/animales", isAuthenticated, (req, res, next) => {
 //editar un animal
 router.put("/animales/:animalId", isAuthenticated, async (req, res, next) => {
   const { animalId } = req.params;
-  console.log("animal id desde back ", animalId)
+  console.log("animal id desde back ", animalId);
   try {
-    const updatedAnimal = await Animal.findByIdAndUpdate(animalId, req.body, { new: true });
-    console.log("updatedAnimal ", updatedAnimal)
+    const updatedAnimal = await Animal.findByIdAndUpdate(animalId, req.body, {
+      new: true,
+    });
+    console.log("updatedAnimal ", updatedAnimal);
     res.json(updatedAnimal);
-  }
-  catch (err) {
-    next(err)
+  } catch (err) {
+    next(err);
   }
 });
 
 // eliminar un animal
-router.delete("/animales/:animalId", isAuthenticated, async (req, res, next) => {
-  const { animalId } = req.params;
-  await Animal.findByIdAndRemove(animalId);
-  res.json({ message: `La publicación del animal ${animalId} se ha eliminado correctamente` });
-});
+router.delete(
+  "/animales/:animalId",
+  isAuthenticated,
+  async (req, res, next) => {
+    const { animalId } = req.params;
+    await Animal.findByIdAndRemove(animalId);
+    res.json({
+      message: `La publicación del animal ${animalId} se ha eliminado correctamente`,
+    });
+  }
+);
 
 router.get("/animalesFiltrados/:creator", async (req, res, next) => {
-    const { userId } = req.params
-    const resp = await Animal.find({ creator: userId });
-    res.json(resp);
-  });
+  const { userId } = req.params;
+  const resp = await Animal.find({ creator: userId });
+  res.json(resp);
+});
+
+// Filtros animales
 
 module.exports = router;
