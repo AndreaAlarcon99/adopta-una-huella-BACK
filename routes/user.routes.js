@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User.model");
 const Animal = require("../models/Animal.model");
-const EmailSender = require('../config/sendMail.config')
+const EmailSender = require("../config/sendMail.config");
 
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 // import EmailSender from '../config/sendMail.config'
@@ -25,12 +25,16 @@ router.get("/perfil/:userId", (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
-
-router.put("/perfil/:userId", isAuthenticated, fileUploader.single('imgUser'), async (req, res, next) => {
-
+router.put(
+  "/perfil/:userId",
+  isAuthenticated,
+  fileUploader.single("imgUser"),
+  async (req, res, next) => {
     try {
       const { userId } = req.params;
-      const updatedUser = await User.findByIdAndUpdate(userId, req.body);
+      const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
+        new: true,
+      });
       res.json(updatedUser);
     } catch (err) {
       console.log(err);
@@ -51,10 +55,11 @@ router.post("/perfil/:userId/send", (req, res, next) => {
   try {
     const mailData = req.body;
 
-    EmailSender(mailData)
-    res.json({msn: "Mensaje enviado! Pronto se pondrán en contacto contigo"})
-  } catch (err) { console.log(err) }
-  });
-
+    EmailSender(mailData);
+    res.json({ msn: "Mensaje enviado! Pronto se pondrán en contacto contigo" });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 module.exports = router;
