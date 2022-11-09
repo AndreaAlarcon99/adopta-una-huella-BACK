@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+const nodemailer = require('nodemailer');
 
 const Email = mailData => {
   let transporter = nodemailer.createTransport({
@@ -18,7 +18,7 @@ const Email = mailData => {
 
 const EmailSender = mailData => {
   let { email, nombreAnon, telefonoAnon, emailAnon, mensajeAnon, animalName } = mailData;
-    const mailData = {
+    const options = {
       from: `Adopta una huella`,
       to: `${email}`, 
       subject: `${nombreAnon} solicita una adopción`, 
@@ -39,7 +39,7 @@ const EmailSender = mailData => {
   
             </div>`
     }
-  Email(mailData);
+  Email(options);
 }
 
-export default EmailSender;
+module.exports = EmailSender;

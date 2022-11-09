@@ -2,12 +2,13 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User.model");
 const Animal = require("../models/Animal.model");
+const EmailSender = require('../config/sendMail.config')
 
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 const fileUploader = require("../config/cloudinary.config");
 const multer = require("multer");
-import EmailSender from '../config/sendMail.config'
+// import EmailSender from '../config/sendMail.config'
 const uploader = multer({
   dest: "./public/uploaded",
   limits: {
@@ -47,7 +48,6 @@ router.post('/perfil/:userId/send', (req, res, next) => {
     EmailSender(mailData)
     res.json({msn: "Mensaje enviado! Pronto se pondrán en contacto contigo"})
   } catch (err) { console.log(err) }
-
   });
 
 module.exports = router;
