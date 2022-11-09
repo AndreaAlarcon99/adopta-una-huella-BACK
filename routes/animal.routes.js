@@ -53,22 +53,16 @@ router.get("/animales/:animalId", (req, res, next) => {
 
 // Crear un animal
 router.post("/animales", isAuthenticated, (req, res, next) => {
-  console.log("Soy el post de animales desde back");
   Animal.create(req.body)
     .then((results) => res.json(results))
-    .catch((err) => {
-      console.log("INTENTANDO ENCONTRAR EL ERROR: ", err.response);
-      next(err);
-    });
+    .catch((err) => next(err))
 });
 
 //editar un animal
 router.put("/animales/:animalId", isAuthenticated, async (req, res, next) => {
   const { animalId } = req.params;
-  console.log("animal id desde back ", animalId)
   try {
     const updatedAnimal = await Animal.findByIdAndUpdate(animalId, req.body, { new: true });
-    console.log("updatedAnimal ", updatedAnimal)
     res.json(updatedAnimal);
   }
   catch (err) {
@@ -84,9 +78,15 @@ router.delete("/animales/:animalId", isAuthenticated, async (req, res, next) => 
 });
 
 router.get("/animalesFiltrados/:creator", async (req, res, next) => {
-    const { userId } = req.params
-    const resp = await Animal.find({ creator: userId });
+  try {
+    const { creator } = req.params
+    console.log({'creator': creator })
+    const resp = await Animal.find( {'creator': creator } );
+    console.log('ANIMALESFRILTRADOS EN NODEROUTES-->' + resp + ' <--VACIO?')
     res.json(resp);
-  });
+  } catch (err) { console.log(err)}
+});
+
+
 
 module.exports = router;
