@@ -7,7 +7,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 const fileUploader = require("../config/cloudinary.config");
 const multer = require("multer");
-import EmailSender from '../config/sendMail.config'
+// import EmailSender from '../config/sendMail.config'
 const uploader = multer({
   dest: "./public/uploaded",
   limits: {
@@ -23,7 +23,7 @@ router.get("/perfil/:userId", (req, res, next) => {
     .then(singleUser => res.json(singleUser))
     .catch(err => console.log(err))
 });
-router.put("/perfil/:userId", isAuthenticated, uploader.single('nombreDelInput'), async (req, res, next) => {
+router.put("/perfil/:userId", isAuthenticated, fileUploader.single('imgUser'), async (req, res, next) => {
     try {
       const { userId } = req.params
       const updatedUser = await User.findByIdAndUpdate(userId, req.body)
