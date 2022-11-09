@@ -5,7 +5,6 @@ const Animal = require("../models/Animal.model");
 const EmailSender = require("../config/sendMail.config");
 
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
-// import EmailSender from '../config/sendMail.config'
 
 const fileUploader = require("../config/cloudinary.config");
 const multer = require("multer");
@@ -25,11 +24,9 @@ router.get("/perfil/:userId", (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
-router.put(
-  "/perfil/:userId",
-  isAuthenticated,
-  fileUploader.single("imgUser"),
-  async (req, res, next) => {
+
+router.put("/perfil/:userId", isAuthenticated, fileUploader.single('imgUser'), async (req, res, next) => {
+
     try {
       const { userId } = req.params;
       const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
