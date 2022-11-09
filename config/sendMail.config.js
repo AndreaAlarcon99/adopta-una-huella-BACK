@@ -20,6 +20,7 @@
 //   let { email, nombreAnon, telefonoAnon, emailAnon, mensajeAnon, animalName } = mailData;
 //     const mailData = {
 //       from: `Adopta una huella`,
+
 //       to: `${email}`, 
 //       subject: `${nombreAnon} solicita una adopción`, 
 //       html: `<div style="width: 100%; background-color: #F0EAD2; padding: 5rem; margin: auto">
@@ -36,10 +37,12 @@
   
 //                   <p><b>${nombreAnon}</b> os envía el siguiente mensaje:</p>
 //                   <p>${mensajeAnon}</p>
-  
+
 //             </div>`
 //     }
 //   Email(mailData);
 // }
 
+
 // export default EmailSender;
+
