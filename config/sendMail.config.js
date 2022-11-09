@@ -2,21 +2,21 @@
 const nodemailer = require('nodemailer');
 
 
-// const Email = mailData => {
-//   let transporter = nodemailer.createTransport({
-//       service: 'gmail',
-//       auth: {
-//         user: process.env.USER,
-//         pass: process.env.PASSWORD
-//       }
-//     });
-//     transporter.sendMail(mailData, (err,info) => {
-//       if(err){
-//         console.log(err)
-//         return;
-//       }
-//     })
-// }
+const Email = mailData => {
+  let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.USER,
+        pass: process.env.PASSWORD
+      }
+    });
+    transporter.sendMail(mailData, (err,info) => {
+      if(err){
+        console.log(err)
+        return;
+      }
+    })
+}
 
 
 const EmailSender = mailData => {
