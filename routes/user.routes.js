@@ -55,11 +55,11 @@ router.post("/perfil/:userId/send", (req, res, next) => {
   try {
     const mailData = req.body;
 
-    EmailSender(mailData);
-    res.json({ msn: "Mensaje enviado! Pronto se pondrán en contacto contigo" });
-  } catch (err) {
-    console.log(err);
-  }
-});
+    EmailSender(mailData)
+    res.json({msn: "Mensaje enviado! Pronto se pondrán en contacto contigo"})
+  } catch (err) { console.log(err) }
+  });
+
+
 
 module.exports = router;
