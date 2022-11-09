@@ -27,7 +27,6 @@ const userSchema = new Schema(
     },
     imgUser: {
       type: String,
-      default: "../public/imageDefault.png"
     },
     description: {
       type: String,
