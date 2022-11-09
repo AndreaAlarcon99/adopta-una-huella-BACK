@@ -10,8 +10,7 @@ const fileUploader = require("../config/cloudinary.config");
 
 
 router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
-  const { email, password, username, description, licence, location } =
-    req.body;
+  const { email, password, username, description, licence, location, imgUser } = req.body;
 
   // // Check if email or password or name are provided as empty strings
   if (
@@ -67,12 +66,13 @@ router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
         description,
         licence,
         location,
+        imgUser: req.file.path,
       });
     })
     .then((createdUser) => {
       // Deconstruct the newly created user object to omit the password
       // We should never expose passwords publicly
-      const { email, username, _id, description, licence, location } =
+      const { email, username, _id, description, licence, location, imgUser } =
         createdUser;
 
       // Create a new object that doesn't expose the password
@@ -83,6 +83,7 @@ router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
         description,
         licence,
         location,
+        imgUser,
       };
       const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
         algorithm: "HS256",
