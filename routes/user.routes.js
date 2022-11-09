@@ -50,7 +50,6 @@ router.put("/perfil/:userId", isAuthenticated, fileUploader.single('imgUser'), a
 router.post("/perfil/:userId/send", (req, res, next) => {
   try {
     const mailData = req.body;
-
     EmailSender(mailData)
     res.json({msn: "Mensaje enviado! Pronto se pondrán en contacto contigo"})
   } catch (err) { console.log(err) }
