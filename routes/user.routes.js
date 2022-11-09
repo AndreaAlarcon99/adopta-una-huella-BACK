@@ -1,15 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const User = require('../models/User.model')
+const User = require("../models/User.model");
+const Animal = require("../models/Animal.model");
+
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
+
+const fileUploader = require("../config/cloudinary.config");
 const multer = require("multer");
 import EmailSender from '../config/sendMail.config'
 const uploader = multer({
-    dest:"./public/uploaded",
-    limits: {
-        fileSize: 10000000
-    }
-})
+  dest: "./public/uploaded",
+  limits: {
+    fileSize: 10000000,
+  },
+});
+
 
 router.get("/perfil/:userId", (req, res, next) => {
     const { userId } = req.params
@@ -25,6 +30,16 @@ router.put("/perfil/:userId", isAuthenticated, uploader.single('nombreDelInput')
       res.json(updatedUser);
     } catch (err) { console.log(err) }
 });
+// router.get("/perfil/:animalId", isAuthenticated, (req, res, next) => {
+//   const { animalId } = req.params;
+
+//   Animal.findById(animalId)
+//     .populate("creator")
+//     .then((results) => {
+//       res.json(results);
+//     });
+// });
+
 
 router.post('/perfil/:userId/send', (req, res, next) => {
   try {

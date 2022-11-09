@@ -1,8 +1,13 @@
 const { Schema, model } = require("mongoose");
 
-// TODO: Please make sure you edit the User model to whatever makes sense in this case
 const userSchema = new Schema(
   {
+    ourAnimals: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Animal",
+      },
+    ],
     username: {
       type: String,
       required: [true, "Name is required."],
@@ -14,7 +19,7 @@ const userSchema = new Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      match: [/^\S+@\S+.\S+$/, "Please use a valid email address."]
+      match: [/^\S+@\S+.\S+$/, "Please use a valid email address."],
     },
     password: {
       type: String,
@@ -22,7 +27,7 @@ const userSchema = new Schema(
     },
     imgUser: {
       type: String,
-      // required: [true, "Image is required."],
+      default: "../public/imageDefault.png"
     },
     description: {
       type: String,
@@ -30,17 +35,28 @@ const userSchema = new Schema(
     },
     licence: {
       type: String,
-      enum: ["12345A", "12345B", "12345C", "12345D", "12345E", "12345F", "12345G", "12345H", "12345I", "12345J"],
-      required: true
+      enum: [
+        "12345A",
+        "12345B",
+        "12345C",
+        "12345D",
+        "12345E",
+        "12345F",
+        "12345G",
+        "12345H",
+        "12345I",
+        "12345J",
+      ],
+      required: true,
     },
     location: {
       type: String,
-      required: true
+      required: true,
     },
     admin: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

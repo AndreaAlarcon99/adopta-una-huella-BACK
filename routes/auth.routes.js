@@ -5,16 +5,11 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 const saltRounds = 10;
-const multer = require("multer");
-const uploader = multer({
-  dest: "./public/uploaded",
-  limits: {
-    fileSize: 10000000,
-  },
-});
 
-router.post("/signup", uploader.single("nombreDelInput"), (req, res, next) => {
-  console.log("soy inicio ruta signup");
+const fileUploader = require("../config/cloudinary.config");
+
+
+router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
   const { email, password, username, description, licence, location } =
     req.body;
 
