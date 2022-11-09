@@ -60,6 +60,7 @@ router.get("/animales/:animalId", (req, res, next) => {
 
 
 // Crear un animal
+
 router.post("/animales", isAuthenticated, fileUploader.single("imgAnimal"), (req, res, next) => {
   console.log(req.body)
   Animal.create({...req.body, imgAnimal: req.file.path})
@@ -72,11 +73,9 @@ router.post("/animales", isAuthenticated, fileUploader.single("imgAnimal"), (req
 //editar un animal
 router.put("/animales/:animalId", isAuthenticated, fileUploader.single("imgAnimal"), async (req, res, next) => {
   const { animalId } = req.params;
-  console.log("animal id desde back ", animalId);
   try {
 
     const updatedAnimal = await Animal.findByIdAndUpdate(animalId, req.body, { new: true });
-
     res.json(updatedAnimal);
   } catch (err) {
     next(err);
@@ -95,13 +94,5 @@ router.delete(
     });
   }
 );
-
-router.get("/animalesFiltrados/:creator", async (req, res, next) => {
-  const { userId } = req.params;
-  const resp = await Animal.find({ creator: userId });
-  res.json(resp);
-});
-
-// Filtros animales
 
 module.exports = router;

@@ -7,6 +7,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 const fileUploader = require("../config/cloudinary.config");
 const multer = require("multer");
+import EmailSender from '../config/sendMail.config'
 const uploader = multer({
   dest: "./public/uploaded",
   limits: {
@@ -14,19 +15,21 @@ const uploader = multer({
   },
 });
 
-router.get("/perfil/:userId", async (req, res, next) => {
-  const { userId } = req.params;
-  const singleUser = await User.findById(userId);
-  res.json(singleUser);
-});
 
-router.put("/perfil/:userId", isAuthenticated, fileUploader.single('imgUser'), async (req, res, next) => {
+router.get("/perfil/:userId", (req, res, next) => {
     const { userId } = req.params
-    const updatedUser = await User.findByIdAndUpdate(userId, req.body)
-    res.json(updatedUser);
-  }
-);
-
+    User.findById(userId)
+    .populate('Animal')
+    .then(singleUser => res.json(singleUser))
+    .catch(err => console.log(err))
+});
+router.put("/perfil/:userId", isAuthenticated, uploader.single('nombreDelInput'), async (req, res, next) => {
+    try {
+      const { userId } = req.params
+      const updatedUser = await User.findByIdAndUpdate(userId, req.body)
+      res.json(updatedUser);
+    } catch (err) { console.log(err) }
+});
 // router.get("/perfil/:animalId", isAuthenticated, (req, res, next) => {
 //   const { animalId } = req.params;
 
@@ -36,5 +39,15 @@ router.put("/perfil/:userId", isAuthenticated, fileUploader.single('imgUser'), a
 //       res.json(results);
 //     });
 // });
+
+
+router.post('/perfil/:userId/send', (req, res, next) => {
+  try {
+    const mailData = req.body;
+    EmailSender(mailData)
+    res.json({msn: "Mensaje enviado! Pronto se pondrán en contacto contigo"})
+  } catch (err) { console.log(err) }
+
+  });
 
 module.exports = router;
