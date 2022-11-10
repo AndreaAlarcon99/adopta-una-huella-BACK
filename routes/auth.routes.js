@@ -9,7 +9,8 @@ const saltRounds = 10;
 const fileUploader = require("../config/cloudinary.config");
 
 router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
-  const { email, password, username, description, licence, location, imgUser } = req.body;
+  const { email, password, username, description, licence, location, imgUser } =
+    req.body;
 
   // // Check if email or password or name are provided as empty strings
   if (
@@ -126,7 +127,7 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the user object to omit the password
-        const { _id, email, username, description, licence, location } =
+        const { _id, email, username, description, licence, location, admin } =
           foundUser;
 
         // Create an object that will be set as the token payload
@@ -137,6 +138,7 @@ router.post("/login", (req, res, next) => {
           description,
           licence,
           location,
+          admin,
         };
 
         // Create a JSON Web Token and sign it
