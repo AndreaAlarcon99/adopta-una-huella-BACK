@@ -7,9 +7,10 @@ const fileUploader = require("../config/cloudinary.config");
 router.get("/", (req, res, next) => {
   const filtro = {
     age: ["Anciano"],
+    adopted: false
   };
 
-  Animal.find({ age: { $in: filtro.age } }).then((results) => {
+  Animal.find(filtro).then((results) => {
     res.json(results);
   });
 });
@@ -17,11 +18,17 @@ router.get("/", (req, res, next) => {
 // Lista de animales en adopción con filtros
 router.get("/animales", (req, res, next) => {
   const arrayCondiciones = [];
-  const filtro = {};
-  const { gender, age, size, lifestyle, animalType } = req.query;
+  const filtro = {
+    adopted: false
+  };
+  const { gender, age, size, lifestyle, animalType, adopted } = req.query;
+
+  // if (adopted === false)
+  // arrayCondiciones.push({adopted: { $in: adopted }})
 
   if (gender && gender.length > 0)
     arrayCondiciones.push({ gender: { $in: gender } });
+
   if (size && size.length > 0) arrayCondiciones.push({ size: { $in: size } });
   if (age && age.length > 0) arrayCondiciones.push({ age: { $in: age } });
   if (lifestyle && lifestyle.length > 0)
