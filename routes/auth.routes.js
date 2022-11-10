@@ -126,7 +126,7 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the user object to omit the password
-        const { _id, email, username, description, licence, location } =
+        const { _id, email, username, description, licence, location, admin } =
           foundUser;
 
         // Create an object that will be set as the token payload
@@ -137,6 +137,7 @@ router.post("/login", (req, res, next) => {
           description,
           licence,
           location,
+          admin
         };
 
         // Create a JSON Web Token and sign it
