@@ -30,16 +30,12 @@ const EmailSender = mailData => {
                   <h3>Adopta una huella</h3>
                   <p>Querida entidad:</p><br>
   
-//                   <h3>Adopta una huella</h3>
-//                   <p>Querida entidad:</p><br>
+                  <p><b>${animalName}</b> ha recibido una solicitud de adopción de ${nombreAnon}</p><br>
   
-//                   <p><b>${animalName}</b> ha recibido una solicitud de adopción de ${nombreAnon}</p><br>
+                  <p>Datos de contacto:</p><br>
   
-//                   <p>Datos de contacto:</p><br>
-  
-//                   <p>${telefonoAnon}</p>
-//                   <p>${emailAnon}</p><br>
-  
+                   <p>${telefonoAnon}</p>
+                  <p>${emailAnon}</p><br>
 
             </div>`
     }
