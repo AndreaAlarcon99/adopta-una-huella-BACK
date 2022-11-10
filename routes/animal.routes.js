@@ -41,6 +41,7 @@ router.get("/animales", (req, res, next) => {
 });
 
 // Lista de animales que han sido adoptados
+
 router.get("/animalesAdoptados", async (req, res, next) => {
   const resp = await Animal.find({ adopted: true });
   res.json(resp);
@@ -56,29 +57,39 @@ router.get("/animales/:animalId", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-
 // Crear un animal
 
-router.post("/animales", isAuthenticated, fileUploader.single("imgAnimal"), (req, res, next) => {
-  console.log(req.body)
-  Animal.create({...req.body, imgAnimal: req.file.path})
-    .then((results) => res.json(results))
-    .catch((err) => {
-      next(err);
-    });
-});
+router.post(
+  "/animales",
+  isAuthenticated,
+  fileUploader.single("imgAnimal"),
+  (req, res, next) => {
+    console.log(req.body);
+    Animal.create({ ...req.body, imgAnimal: req.file.path })
+      .then((results) => res.json(results))
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
 
 //editar un animal
-router.put("/animales/:animalId", isAuthenticated, fileUploader.single("imgAnimal"), async (req, res, next) => {
-  const { animalId } = req.params;
-  try {
-
-    const updatedAnimal = await Animal.findByIdAndUpdate(animalId, req.body, { new: true });
-    res.json(updatedAnimal);
-  } catch (err) {
-    next(err);
+router.put(
+  "/animales/:animalId",
+  isAuthenticated,
+  fileUploader.single("imgAnimal"),
+  async (req, res, next) => {
+    const { animalId } = req.params;
+    try {
+      const updatedAnimal = await Animal.findByIdAndUpdate(animalId, req.body, {
+        new: true,
+      });
+      res.json(updatedAnimal);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 // eliminar un animal
 router.delete(
