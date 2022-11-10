@@ -40,8 +40,7 @@ router.put(
       });
       res.json(updatedUser);
     } catch (err) {
-      console.log("error editar perfil back: ", err);
-      // console.log(err);
+      // console.log("error editar perfil back: ", err);
     }
   }
 );

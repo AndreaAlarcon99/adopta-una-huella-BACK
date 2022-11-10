@@ -25,6 +25,9 @@ router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
     return;
   }
 
+  // if (password != password2) {
+  //   res.status(400).json({ message: "Las contraseñas no coinciden." });
+  // }
   // This regular expression check that the email is of a valid format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!emailRegex.test(email)) {
@@ -49,7 +52,7 @@ router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
     .then((foundUser) => {
       // If the user with the same email already exists, send an error response
       if (foundUser) {
-        res.status(400).json({ message: "El usuario ya existe." });
+        res.status(400).json({ message: "Este usuario ya existe." });
         return;
       }
 
@@ -107,9 +110,7 @@ router.post("/login", (req, res, next) => {
 
   // Check if email or password are provided as empty string
   if (email === "" || password === "") {
-    res
-      .status(400)
-      .json({ message: "Proporcionar el correo electrónico y la contraseña." });
+    res.status(400).json({ message: "Todos los campos deben ser rellenados." });
     return;
   }
 
@@ -150,9 +151,7 @@ router.post("/login", (req, res, next) => {
         // Send the token as the response
         res.status(200).json({ authToken: authToken });
       } else {
-        res
-          .status(401)
-          .json({ message: "No se ha podido autentificar al usuario." });
+        res.status(401).json({ message: "Las credenciales no son correctas." });
       }
     })
     .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
