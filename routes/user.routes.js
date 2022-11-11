@@ -9,6 +9,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 const fileUploader = require("../config/cloudinary.config");
 const multer = require("multer");
+const { deleteMany, db } = require("../models/User.model");
 
 const uploader = multer({
   dest: "./public/uploaded",
@@ -25,6 +26,12 @@ router.get("/perfil/:userId", (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
+router.get("/protectoras", (req, res, next) => {
+  User.find()
+      .then(results => res.json(results))
+      .catch(err => console.log(err))
+});
+
 router.put(
   "/perfil/:userId",
   isAuthenticated,
@@ -32,27 +39,22 @@ router.put(
   async (req, res, next) => {
     try {
       const { userId } = req.params;
-      // console.log("userId: ", req.params);
-      // console.log("REQ BODY: ", req.body);
-      // res.json({ params: req.params, body: req.body });
       const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
         new: true,
       });
       res.json(updatedUser);
-    } catch (err) {
-      // console.log("error editar perfil back: ", err);
-    }
+    } catch(err) {console.log("error editar perfil back: ", err)}
   }
 );
-// router.get("/perfil/:animalId", isAuthenticated, (req, res, next) => {
-//   const { animalId } = req.params;
 
-//   Animal.findById(animalId)
-//     .populate("creator")
-//     .then((results) => {
-//       res.json(results);
-//     });
-// });
+router.delete("/perfil/:userId", isAuthenticated, async (req, res, next) => {
+    const { userId } = req.params;
+    // const user = await User.findById(userId);
+    // await db.animals.deleteMany({_id: {$in: user.ourAnimals}});
+    await User.findByIdAndRemove(userId);
+    res.json({message: `El perfil de la protectora ${userId} se ha eliminado correctamente`});
+  }
+);
 
 router.post("/perfil/:userId/send", (req, res, next) => {
   try {
