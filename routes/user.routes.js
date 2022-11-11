@@ -27,7 +27,10 @@ router.get("/perfil/:userId", (req, res, next) => {
 });
 
 router.get("/protectoras", (req, res, next) => {
-  User.find()
+  const filtro = {
+    admin: false
+  }
+  User.find(filtro)
       .then(results => res.json(results))
       .catch(err => console.log(err))
 });
