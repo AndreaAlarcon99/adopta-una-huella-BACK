@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Animal = require("../models/Animal.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
-
 const fileUploader = require("../config/cloudinary.config");
 
 router.get("/", (req, res, next) => {
