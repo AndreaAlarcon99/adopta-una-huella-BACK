@@ -1,0 +1,73 @@
+const express = require("express");
+const router = express.Router();
+const User = require("../models/User.model");
+const Animal = require("../models/Animal.model");
+const EmailSender = require("../config/sendMail.config");
+const mongoose = require("mongoose");
+
+const { isAuthenticated } = require("../middleware/jwt.middleware.js");
+
+const fileUploader = require("../config/cloudinary.config");
+const multer = require("multer");
+const { deleteMany, db } = require("../models/User.model");
+
+const uploader = multer({
+  dest: "./public/uploaded",
+  limits: {
+    fileSize: 10000000,
+  },
+});
+
+router.get("/perfil/:userId", (req, res, next) => {
+  const { userId } = req.params;
+  User.findById(userId)
+    .populate("ourAnimals")
+    .then((singleUser) => res.json(singleUser))
+    .catch((err) => console.log(err));
+});
+
+router.get("/protectoras", (req, res, next) => {
+  const filtro = {
+    admin: false
+  }
+  User.find(filtro)
+      .then(results => res.json(results))
+      .catch(err => console.log(err))
+});
+
+router.put(
+  "/perfil/:userId",
+  isAuthenticated,
+  fileUploader.single("imgUser"),
+  async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+      const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
+        new: true,
+      });
+      res.json(updatedUser);
+    } catch(err) {console.log("error editar perfil back: ", err)}
+  }
+);
+
+router.delete("/perfil/:userId", isAuthenticated, async (req, res, next) => {
+    const { userId } = req.params;
+    // const user = await User.findById(userId);
+    // await db.animals.deleteMany({_id: {$in: user.ourAnimals}});
+    await User.findByIdAndRemove(userId);
+    res.json({message: `El perfil de la protectora ${userId} se ha eliminado correctamente`});
+  }
+);
+
+router.post("/perfil/:userId/send", (req, res, next) => {
+  try {
+    const mailData = req.body;
+
+    EmailSender(mailData);
+    res.json({ msn: "Mensaje enviado! Pronto se pondrán en contacto contigo" });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+module.exports = router;
