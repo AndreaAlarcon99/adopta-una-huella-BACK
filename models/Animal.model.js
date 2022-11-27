@@ -25,25 +25,12 @@ const animalSchema = new Schema(
     },
     birthday: {
       type: Date
-      // dia: {
-      //   type: Number,
-      //   require: true,
-      // },
-      // mes: {
-      //   type: Number,
-      //   require: true,
-      // },
-      // año: {
-      //   type: Number,
-      //   require: true,
-      // },
     },
     animalType: {
       type: String,
       enum: ["Perro", "Gato", "Exótico"],
       require: true,
     },
-
     weight: {
       type: Number,
       require: true,
@@ -78,14 +65,9 @@ const animalSchema = new Schema(
     location: {
       type: String,
     },
-
     adopted: {
       type: Boolean,
       default: false,
-    },
-    singleAnimal: {
-      type: Boolean,
-      default: true,
     },
   },
   {
