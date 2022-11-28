@@ -8,11 +8,12 @@ const saltRounds = 10;
 
 const fileUploader = require("../config/cloudinary.config");
 
+// POST  /signup - creates a new user
 router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
   const { email, password, username, description, licence, location, imgUser } =
     req.body;
 
-  // // Check if email or password or name are provided as empty strings
+  // Check if any of them are provided as empty strings
   if (
     email === "" ||
     password === "" ||
@@ -25,9 +26,10 @@ router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
     return;
   }
 
-  // if (password != password2) {
+  // if (password !== password2) {
   //   res.status(400).json({ message: "Las contraseñas no coinciden." });
   // }
+
   // This regular expression check that the email is of a valid format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!emailRegex.test(email)) {
@@ -104,7 +106,7 @@ router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
     }); // In this case, we send error handling to the error handling middleware.
 });
 
-// POST  /auth/login - Verifies email and password and returns a JWT
+// POST  /login - Verifies email and password and returns a JWT
 router.post("/login", (req, res, next) => {
   const { email, password } = req.body;
 
@@ -157,7 +159,7 @@ router.post("/login", (req, res, next) => {
     .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
 });
 
-// GET  /auth/verify  -  Used to verify JWT stored on the client
+// GET  /verify  -  Used to verify JWT stored on the client
 router.get("/verify", isAuthenticated, (req, res, next) => {
   // If JWT token is valid the payload gets decoded by the
   // isAuthenticated middleware and is made available on `req.payload`
