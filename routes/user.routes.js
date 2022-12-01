@@ -16,7 +16,7 @@ router.get("/perfil/:userId", (req, res, next) => {
   User.findById(userId)
     .populate("ourAnimals")
     .then((singleUser) => res.json(singleUser))
-    .catch((err) => next(err));
+    .catch((err) => console.log(err));
 });
 
 //GET all users (not admin user)
@@ -29,15 +29,17 @@ router.get("/protectoras", (req, res, next) => {
       .catch(err => next(err))
 });
 
-//PUT edits user profile
-router.put("/perfil/:userId", isAuthenticated, fileUploader.single("imgUser"), async (req, res, next) => {
+//UPDATE user
+router.put(
+  "/perfil/:userId",
+  isAuthenticated,
+  fileUploader.single("imgUser"),
+  async (req, res, next) => {
     try {
       const { userId } = req.params;
-      const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
-        new: true,
-      });
+      const updatedUser = await User.findByIdAndUpdate(userId, req.body, {new: true});
       res.json(updatedUser);
-    } catch(err) {next(err)}
+    } catch(err) {console.log("error editar perfil back: ", err)}
   }
 );
 
@@ -53,15 +55,15 @@ router.delete("/perfil/:userId", isAuthenticated, async (req, res, next) => {
   }
 });
 
-//POST sends email to user (under construction)
+//POST email (under construction)
 router.post("/perfil/:userId/send", (req, res, next) => {
   try {
     const mailData = req.body;
-
     EmailSender(mailData);
-    res.json({ message: "¡Mensaje enviado! Pronto se pondrán en contacto contigo"});
-  } catch (err) {
-    console.log(err);
+    res.json({ msn: "Mensaje enviado! Pronto se pondrán en contacto contigo" });
+  } 
+  catch (err) {
+    next(err)
   }
 });
 

@@ -11,9 +11,7 @@ router.get("/", (req, res, next) => {
     adopted: false
   };
 
-  Animal.find(filtro).then((results) => {
-    res.json(results);
-  });
+  Animal.find(filtro).then(results => res.json(results)).catch(err => next(err));
 });
 
 // Lista de animales en adopción con filtros
@@ -25,28 +23,14 @@ router.get("/animales", (req, res, next) => {
 
   const { gender, age, size, lifestyle, animalType, adopted } = req.query;
 
-  if (gender && gender.length > 0)
-    arrayCondiciones.push({ gender: { $in: gender } });
-
+  if (gender && gender.length > 0) arrayCondiciones.push({ gender: { $in: gender } });
   if (size && size.length > 0) arrayCondiciones.push({ size: { $in: size } });
-
   if (age && age.length > 0) arrayCondiciones.push({ age: { $in: age } });
-  
-  if (lifestyle && lifestyle.length > 0)
-    arrayCondiciones.push({ lifestyle: { $in: lifestyle } });
-
-  if (animalType && animalType.length > 0)
-    arrayCondiciones.push({ animalType: { $in: animalType } });
-
+  if (lifestyle && lifestyle.length > 0) arrayCondiciones.push({ lifestyle: { $in: lifestyle } });
+  if (animalType && animalType.length > 0) arrayCondiciones.push({ animalType: { $in: animalType } });
   if (arrayCondiciones.length > 0) filtro.$and = arrayCondiciones;
 
-  Animal.find(filtro)
-    .then((results) => {
-      res.json(results);
-    })
-    .catch((err) => {
-      next(err);
-    });
+  Animal.find(filtro).then(results => res.json(results)).catch(err => next(err));
 });
 
 // Lista de animales que han sido adoptados
