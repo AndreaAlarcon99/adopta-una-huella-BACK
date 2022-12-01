@@ -9,7 +9,6 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 const fileUploader = require("../config/cloudinary.config");
 
-const { deleteMany, db } = require("../models/User.model");
 
 //GET user profile
 router.get("/perfil/:userId", (req, res, next) => {
@@ -46,8 +45,8 @@ router.put("/perfil/:userId", isAuthenticated, fileUploader.single("imgUser"), a
 router.delete("/perfil/:userId", isAuthenticated, async (req, res, next) => {
     const { userId } = req.params;
   try {
+    await Animal.deleteMany({creator: userId})
     await User.findByIdAndRemove(userId);
-    // await db.animals.deleteMany({_id: {$in: user.ourAnimals}});
     res.json({message: `El perfil de la protectora ${userId} se ha eliminado correctamente`});
   } catch(err) {
     next(err);
