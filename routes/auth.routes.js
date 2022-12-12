@@ -8,7 +8,7 @@ const saltRounds = 10;
 
 const fileUploader = require("../config/cloudinary.config");
 
-// POST  /signup - creates a new user
+// POST  /signup - crea un nuevo usuario
 router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
   const { email, password, username, description, licence, location, imgUser } =
     req.body;
