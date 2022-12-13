@@ -55,7 +55,7 @@ router.delete("/perfil/:userId", isAuthenticated, async (req, res, next) => {
   }
 });
 
-//POST email (under construction)
+//POST email 
 router.post("/perfil/:userId/send", (req, res, next) => {
   try {
     const mailData = req.body;
