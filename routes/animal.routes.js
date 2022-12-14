@@ -57,7 +57,7 @@ router.post("/animales", isAuthenticated, fileUploader.single("imgAnimal"), (req
 //editar un animal
 router.put("/animales/:animalId", isAuthenticated, fileUploader.single("imgAnimal"), (req, res, next) => {
   const { animalId } = req.params;
-  Animal.findByIdAndUpdate(animalId, req.body, {new: true})
+  Animal.findByIdAndUpdate(animalId, (req.file? { "imgAnimal": req.file.path} : req.body ), {new: true})
     .then((results) => res.json(results))
     .catch((err) => next(err));
 });

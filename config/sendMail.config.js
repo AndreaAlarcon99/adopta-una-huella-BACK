@@ -25,7 +25,7 @@ const EmailSender = mailData => {
       from: `Adopta una huella`,
       to: `${email}`, 
       subject: `${nombreAnon} solicitó adoptar a ${animalName}`, 
-      html: `<div style="width: 100%; background-color: #F0EAD2; padding: 5rem; margin: auto; justify-content: center;">
+      html: `<div style="width: 100%; background-color: #FFFFFF; padding: 5rem; margin: auto; justify-content: center;">
 
       <img src="../public/Huella.png" alt="logo" id="logo" />
                   <br>
@@ -33,7 +33,7 @@ const EmailSender = mailData => {
                   <p><b>Adopta una huella</b> ha recibido una solicitud de adopción para <b>${animalName}</b>.<br> Aquí tienes los datos de contacto:</p>
                   
                   <br>
-                  <div style='background-color: #A98467; border-radius: 15px; padding: 10px; width: 450px;' >
+                  <div style='background-color: #F0EAD2; border-radius: 15px; padding: 10px; width: 450px;' >
                     <p><b>Solicitante:</b> ${nombreAnon}</p>
                     <p><b>Teléfono:</b> ${telefonoAnon}</p>
                     <p><b>Email:</b> ${emailAnon}</p>
