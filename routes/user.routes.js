@@ -37,7 +37,7 @@ router.put(
   async (req, res, next) => {
     try {
       const { userId } = req.params;
-      const updatedUser = await User.findByIdAndUpdate(userId, req.body, {new: true});
+      const updatedUser = await User.findByIdAndUpdate(userId, (req.file? { "imgUser": req.file.path} : req.body ), {new: true});
       res.json(updatedUser);
     } catch(err) {console.log("error editar perfil back: ", err)}
   }

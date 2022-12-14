@@ -57,6 +57,7 @@ router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
       // If email is unique, proceed to hash the password
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashedPassword = bcrypt.hashSync(password, salt);
+      
 
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then`
