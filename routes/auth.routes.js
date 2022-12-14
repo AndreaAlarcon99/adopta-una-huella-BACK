@@ -26,10 +26,6 @@ router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
     return;
   }
 
-  // if (password !== password2) {
-  //   res.status(400).json({ message: "Las contraseñas no coinciden." });
-  // }
-
   // This regular expression check that the email is of a valid format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   if (!emailRegex.test(email)) {
