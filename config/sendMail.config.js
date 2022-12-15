@@ -1,34 +1,37 @@
+const nodemailer = require("nodemailer");
 
-const nodemailer = require('nodemailer');
-
-
-const Email = mailData => {
+const Email = (mailData) => {
   let transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: "aunahuella@gmail.com",
-        pass: "ywyrkmxxjlookogd"
-      }
-    });
-    transporter.sendMail(mailData, (err,info) => {
-      if(err){
-        console.log(err)
-        return;
-      }
-    })
-}
+    service: "gmail",
+    auth: {
+      user: "aunahuella@gmail.com",
+      pass: "ywyrkmxxjlookogd",
+    },
+  });
+  transporter.sendMail(mailData, (err, info) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+  });
+};
 
-
-const EmailSender = mailData => {
-  let { userId, email, animalName, nombreAnon, telefonoAnon, emailAnon, mensajeAnon } = mailData;
-    const options = {
-      from: `Adopta una huella`,
-      to: `${email}`, 
-      subject: `${nombreAnon} solicitó adoptar a ${animalName}`, 
-      html: `<div style="width: 100%; background-color: #FFFFFF; padding: 5rem; margin: auto; justify-content: center;">
-
-      <img src="../public/Huella.png" alt="logo" id="logo" />
-                  <br>
+const EmailSender = (mailData) => {
+  let {
+    userId,
+    email,
+    animalName,
+    nombreAnon,
+    telefonoAnon,
+    emailAnon,
+    mensajeAnon,
+  } = mailData;
+  const options = {
+    from: `Adopta una huella`,
+    to: `${email}`,
+    subject: `${nombreAnon} solicitó adoptar a ${animalName}`,
+    html: `<div style="width: 100%; background-color: #FFFFFF; padding: 5rem; margin: auto; justify-content: center;">
+           
                   <span>¡Tenemos buenas noticias! </span>
                   <p><b>Adopta una huella</b> ha recibido una solicitud de adopción para <b>${animalName}</b>.<br> Aquí tienes los datos de contacto:</p>
                   
@@ -43,10 +46,9 @@ const EmailSender = mailData => {
                   <p>Para cualquier duda, puede ponerse en contacto con nosotros enviando un email a la dirección:<br>
                   aunahuella@gmail.com con asunto: ${userId}</p>
                   
-            </div>`
-    }
+            </div>`,
+  };
   Email(options);
-}
+};
 
 module.exports = EmailSender;
-
