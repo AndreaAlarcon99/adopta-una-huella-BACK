@@ -8,7 +8,7 @@ const saltRounds = 10;
 
 const fileUploader = require("../config/cloudinary.config");
 
-// POST  /signup - creates a new user
+// POST  /signup - crea un nuevo usuario
 router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
   const { email, password, username, description, licence, location, imgUser } =
     req.body;
@@ -25,10 +25,6 @@ router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
     res.status(400).json({ message: "Todos los campos son obligatorios." });
     return;
   }
-
-  // if (password !== password2) {
-  //   res.status(400).json({ message: "Las contraseñas no coinciden." });
-  // }
 
   // This regular expression check that the email is of a valid format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -61,6 +57,7 @@ router.post("/signup", fileUploader.single("imgUser"), (req, res, next) => {
       // If email is unique, proceed to hash the password
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashedPassword = bcrypt.hashSync(password, salt);
+      
 
       // Create the new user in the database
       // We return a pending promise, which allows us to chain another `then`

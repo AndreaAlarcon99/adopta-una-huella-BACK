@@ -9,7 +9,6 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 const fileUploader = require("../config/cloudinary.config");
 
-const { deleteMany, db } = require("../models/User.model");
 
 //GET user profile
 router.get("/perfil/:userId", (req, res, next) => {
@@ -17,7 +16,7 @@ router.get("/perfil/:userId", (req, res, next) => {
   User.findById(userId)
     .populate("ourAnimals")
     .then((singleUser) => res.json(singleUser))
-    .catch((err) => next(err));
+    .catch((err) => console.log(err));
 });
 
 //GET all users (not admin user)
@@ -30,39 +29,35 @@ router.get("/protectoras", (req, res, next) => {
       .catch(err => next(err))
 });
 
-//PUT edits user profile
-router.put("/perfil/:userId", isAuthenticated, fileUploader.single("imgUser"), async (req, res, next) => {
-    try {
+//UPDATE user
+router.put("/perfil/:userId", isAuthenticated, fileUploader.single("imgUser"), (req, res, next) => {
       const { userId } = req.params;
-      const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
-        new: true,
-      });
-      res.json(updatedUser);
-    } catch(err) {next(err)}
-  }
-);
+      User.findByIdAndUpdate(userId, { ...req.body, imgUser: req.file.path }, {new: true})
+      .then((results) => res.json(results))
+      .catch((err) => next(err));
+});
 
 //DELETE user
 router.delete("/perfil/:userId", isAuthenticated, async (req, res, next) => {
     const { userId } = req.params;
   try {
+    await Animal.deleteMany({creator: userId})
     await User.findByIdAndRemove(userId);
-    // await db.animals.deleteMany({_id: {$in: user.ourAnimals}});
     res.json({message: `El perfil de la protectora ${userId} se ha eliminado correctamente`});
   } catch(err) {
     next(err);
   }
 });
 
-//POST sends email to user (under construction)
+//POST email 
 router.post("/perfil/:userId/send", (req, res, next) => {
   try {
     const mailData = req.body;
-
     EmailSender(mailData);
-    res.json({ message: "¡Mensaje enviado! Pronto se pondrán en contacto contigo"});
-  } catch (err) {
-    console.log(err);
+    res.json({ msn: "Mensaje enviado! Pronto se pondrán en contacto contigo" });
+  } 
+  catch (err) {
+    next(err)
   }
 });
 
