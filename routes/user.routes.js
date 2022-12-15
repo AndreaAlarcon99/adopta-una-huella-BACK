@@ -32,7 +32,7 @@ router.get("/protectoras", (req, res, next) => {
 //UPDATE user
 router.put("/perfil/:userId", isAuthenticated, fileUploader.single("imgUser"), (req, res, next) => {
       const { userId } = req.params;
-      User.findByIdAndUpdate(userId, { ...req.body, imgUser: req.file.path }, {new: true})
+      User.findByIdAndUpdate(userId, (req.file? {"imgUser": req.file.path}:req.body), {new: true})
       .then((results) => res.json(results))
       .catch((err) => next(err));
 });
